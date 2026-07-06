@@ -1,0 +1,31 @@
+nav{
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    padding:16px 40px;
+    background-color: #2ecc71;
+}
+nav h2{
+    color: white;
+    cursor: pointer;
+}
+nav ul{
+    list-style: none;
+    display: flex;
+    gap: 30px;
+}
+
+nav a{
+    text-decoration: none;
+    color: white;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+nav a:hover {
+    opacity: 0.8;
+}
+.active{
+    color: yellow;
+    font-weight: bold;
+}
