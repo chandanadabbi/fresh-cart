@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useState,useContext } from "react";
 import { NavLink } from "react-router-dom";
 import "./Navbar.css";
+import CartContext from "../../context/CartContext"
 
 function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [cartCount, setCartCount] = useState(0);
+  const {cartItems}=useContext(CartContext)
   return (
     <nav>
       <div className="logo">
@@ -51,6 +53,7 @@ function Navbar() {
             Contact
           </NavLink>
         </li>
+        <li>Cart({cartItems.length})</li>
       </ul>
       <div className="nav-actions">
         <button>Login</button>
