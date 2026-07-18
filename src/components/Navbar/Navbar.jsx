@@ -5,8 +5,8 @@ import CartContext from "../../context/CartContext"
 
 function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [cartCount, setCartCount] = useState(0);
-  const {cartItems}=useContext(CartContext)
+  const {cartItems,totalItems}=useContext(CartContext)
+  
   return (
     <nav>
       <div className="logo">
@@ -53,17 +53,22 @@ function Navbar() {
             Contact
           </NavLink>
         </li>
-        <li>Cart({cartItems.length})</li>
+        <li>
+          <NavLink
+            to="/cart"
+            onClick={() => setIsMenuOpen(false)}
+            className={({ isActive }) => (isActive ? "active" : "")}
+          >
+            Cart({totalItems})
+          </NavLink>
+        </li>
+        
       </ul>
       <div className="nav-actions">
         <button>Login</button>
         <button
-          onClick={() => {
-            setCartCount((prev)=>prev+1);
-            setCartCount((prev)=>prev+1);
-          }}
         >
-          🛒 Cart({cartCount})
+          🛒 Cart({totalItems})
         </button>
       </div>
     </nav>
