@@ -4,8 +4,15 @@ import CartContext from "../../context/CartContext";
 import "./Cart.css";
 
 function Cart() {
-  const { cartItems, addToCart, decreaseQuantity, totalItems, totalPrice } =
-    useContext(CartContext);
+  const {
+    cartItems,
+    addToCart,
+    decreaseQuantity,
+    totalItems,
+    totalPrice,
+    removeFromCart,
+    clearCart,
+  } = useContext(CartContext);
 
   return (
     <div className="cart-container">
@@ -43,6 +50,12 @@ function Cart() {
 
                   <button onClick={() => addToCart(cartItem)}>+</button>
                 </div>
+                <button
+                  className="remove-btn"
+                  onClick={() => removeFromCart(cartItem)}
+                >
+                  Remove
+                </button>
 
                 <p>
                   <strong>
@@ -63,6 +76,12 @@ function Cart() {
               <span>Total Price:</span>
               <span>₹{totalPrice}</span>
             </h3>
+            <div className="cart-actions">
+              <button className="clear-cart-btn" onClick={clearCart}>
+                Clear Cart
+              </button>
+              <button className="checkout-btn">Checkout</button>
+            </div>
           </div>
         </>
       )}
