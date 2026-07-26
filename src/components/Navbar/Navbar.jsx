@@ -1,5 +1,5 @@
 import { useState,useContext } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink,Link } from "react-router-dom";
 import "./Navbar.css";
 import CartContext from "../../context/CartContext"
 
@@ -10,7 +10,12 @@ function Navbar() {
   return (
     <nav>
       <div className="logo">
+        <Link to="/">
         <h2>🛒 FreshCart</h2>
+      </Link>
+
+
+        
       </div>
       <button className="menu-icon" onClick={() => setIsMenuOpen(!isMenuOpen)}>
         ☰
