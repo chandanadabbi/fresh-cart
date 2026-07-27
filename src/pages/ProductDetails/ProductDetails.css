@@ -46,5 +46,15 @@
 @media (max-width:768px){
     .product-details{
         flex-direction:column;
+        gap:20px;
+    }
+    .product-info{
+    align-items: center;
+    text-align: center;
+    }
+    .product-image img{
+    width:100%;
+    max-width:300px;
+    height:auto;
     }
 }
