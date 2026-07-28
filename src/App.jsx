@@ -8,6 +8,9 @@ import About from "./pages/About/About";
 import Contact from "./pages/Contact/Contact";
 import Cart from "./pages/Cart/Cart";
 import ProductDetails from "./pages/ProductDetails/ProductDetails";
+import Checkout from "./pages/Checkout/Checkout";
+import OrderSuccess from "./pages/OrderSuccess/OrderSuccess";
+
 
 function App() {
   return (
@@ -19,6 +22,8 @@ function App() {
         <Route path="about" element={<About />} />
         <Route path="contact" element={<Contact />} />
         <Route path="cart" element={<Cart />} />
+        <Route path="checkout" element={<Checkout/>}/>
+        <Route path="order-success" element={<OrderSuccess/>}/>
       </Route>
 
       <Route path="*" element={<NotFound />} />

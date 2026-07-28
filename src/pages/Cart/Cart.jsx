@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 import CartContext from "../../context/CartContext";
 import "./Cart.css";
 
@@ -13,6 +13,7 @@ function Cart() {
     removeFromCart,
     clearCart,
   } = useContext(CartContext);
+  const navigate=useNavigate()
 
   return (
     <div className="cart-container">
@@ -80,7 +81,7 @@ function Cart() {
               <button className="clear-cart-btn" onClick={clearCart}>
                 Clear Cart
               </button>
-              <button className="checkout-btn">Checkout</button>
+              <button className="checkout-btn" onClick={()=>navigate("/checkout")}>Checkout</button>
             </div>
           </div>
         </>
