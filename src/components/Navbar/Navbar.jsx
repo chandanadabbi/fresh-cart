@@ -17,45 +17,6 @@ function Navbar() {
       <button className="menu-icon" onClick={() => setIsMenuOpen(!isMenuOpen)}>
         ☰
       </button>
-
-      <ul className={`nav-links ${isMenuOpen ? "open" : ""}`}>
-        <li>
-          <NavLink
-            to="/"
-            onClick={() => setIsMenuOpen(false)}
-            className={({ isActive }) => (isActive ? "active" : "")}
-          >
-            Home
-          </NavLink>
-        </li>
-        <li>
-          <NavLink
-            to="/products"
-            onClick={() => setIsMenuOpen(false)}
-            className={({ isActive }) => (isActive ? "active" : "")}
-          >
-            Products
-          </NavLink>
-        </li>
-        <li>
-          <NavLink
-            to="/about"
-            onClick={() => setIsMenuOpen(false)}
-            className={({ isActive }) => (isActive ? "active" : "")}
-          >
-            About
-          </NavLink>
-        </li>
-        <li>
-          <NavLink
-            to="/contact"
-            onClick={() => setIsMenuOpen(false)}
-            className={({ isActive }) => (isActive ? "active" : "")}
-          >
-            Contact
-          </NavLink>
-        </li>
-      </ul>
       <div className="nav-actions">
         <Link to="/cart" className="cart-btn">
           🛒 Cart ({totalItems})
