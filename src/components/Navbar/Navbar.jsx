@@ -1,21 +1,18 @@
-import { useState,useContext } from "react";
-import { NavLink,Link } from "react-router-dom";
+import { useState, useContext } from "react";
+import { NavLink, Link } from "react-router-dom";
 import "./Navbar.css";
-import CartContext from "../../context/CartContext"
+import CartContext from "../../context/CartContext";
 
 function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const {cartItems,totalItems}=useContext(CartContext)
-  
+  const {  totalItems } = useContext(CartContext);
+
   return (
     <nav>
       <div className="logo">
-        <Link to="/">
-        <h2>🛒 FreshCart</h2>
-      </Link>
-
-
-        
+        <Link to="/" className="logo-link"  onClick={() => setIsMenuOpen(false)}>
+          <h2>🛒 FreshCart</h2>
+        </Link>
       </div>
       <button className="menu-icon" onClick={() => setIsMenuOpen(!isMenuOpen)}>
         ☰
@@ -58,23 +55,11 @@ function Navbar() {
             Contact
           </NavLink>
         </li>
-        <li>
-          <NavLink
-            to="/cart"
-            onClick={() => setIsMenuOpen(false)}
-            className={({ isActive }) => (isActive ? "active" : "")}
-          >
-            Cart({totalItems})
-          </NavLink>
-        </li>
-        
       </ul>
       <div className="nav-actions">
-        <button>Login</button>
-        <button
-        >
-          🛒 Cart({totalItems})
-        </button>
+        <Link to="/cart" className="cart-btn">
+          🛒 Cart ({totalItems})
+        </Link>
       </div>
     </nav>
   );

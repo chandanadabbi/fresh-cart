@@ -1,46 +1,108 @@
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CartContext from "../../context/CartContext";
 import "./Checkout.css";
 
 function Checkout() {
-  const [formData, setFormData] = useState(() => {
-    const savedForm = localStorage.getItem("checkoutForm");
-
-    return savedForm
-      ? JSON.parse(savedForm)
-      : {
-          fullName: "",
-          phone: "",
-          email: "",
-          address: "",
-          city: "",
-          state: "",
-          pincode: "",
-        };
-  });
   const [errors, setErrors] = useState({});
-  const { cartItems, totalItems, totalPrice, clearCart } =
-    useContext(CartContext);
+  const { totalItems, totalPrice, clearCart } = useContext(CartContext);
+
   const navigate = useNavigate();
+
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    address: "",
+    city: "",
+    pincode: "",
+    payment: "Cash On Delivery",
+  });
+
+  const deliveryCharge = totalPrice >= 500 ? 0 : 40;
+
+  const gst = Math.round(totalPrice * 0.05);
+
+  const grandTotal = totalPrice + deliveryCharge + gst;
+
+  function handleChange(e) {
+    const { name, value } = e.target;
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+
+    let error = "";
+
+    switch (name) {
+      case "name":
+        if (!value.trim()) {
+          error = "Name is required";
+        }
+        break;
+
+      case "email":
+        if (!value.trim()) {
+          error = "Email is required";
+        } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(value)) {
+          error = "Invalid email";
+        }
+        break;
+
+      case "phone":
+        if (!/^[6-9]\d{9}$/.test(value)) {
+          error = "Enter a valid phone number";
+        }
+        break;
+
+      case "address":
+        if (!value.trim()) {
+          error = "Address is required";
+        }
+        break;
+
+      case "city":
+        if (!value.trim()) {
+          error = "City is required";
+        }
+        break;
+
+      case "pincode":
+        if (!/^\d{6}$/.test(value)) {
+          error = "Pincode must be 6 digits";
+        }
+        break;
+
+      default:
+        break;
+    }
+
+    setErrors((prev) => ({
+      ...prev,
+      [name]: error,
+    }));
+  }
 
   const validateForm = () => {
     let newErrors = {};
 
-    if (!formData.fullName.trim()) {
-      newErrors.fullName = "Full Name is required";
-    }
-
-    if (!formData.phone.trim()) {
-      newErrors.phone = "Phone Number is required";
-    } else if (!/^\d{10}$/.test(formData.phone)) {
-      newErrors.phone = "Phone Number must be exactly 10 digits";
+    if (!formData.name.trim()) {
+      newErrors.name = "Name is required";
     }
 
     if (!formData.email.trim()) {
       newErrors.email = "Email is required";
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = "Enter a valid email address";
+    } else if (
+      !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(formData.email)
+    ) {
+      newErrors.email = "Invalid email address";
+    }
+
+    if (!formData.phone.trim()) {
+      newErrors.phone = "Phone number is required";
+    } else if (!/^[6-9]\d{9}$/.test(formData.phone)) {
+      newErrors.phone = "Enter a valid 10-digit phone number";
     }
 
     if (!formData.address.trim()) {
@@ -51,154 +113,154 @@ function Checkout() {
       newErrors.city = "City is required";
     }
 
-    if (!formData.state.trim()) {
-      newErrors.state = "State is required";
-    }
-
     if (!formData.pincode.trim()) {
       newErrors.pincode = "Pincode is required";
     } else if (!/^\d{6}$/.test(formData.pincode)) {
-      newErrors.pincode = "Pincode must be exactly 6 digits";
+      newErrors.pincode = "Pincode must be 6 digits";
     }
 
     setErrors(newErrors);
 
     return Object.keys(newErrors).length === 0;
   };
-  const handlePlaceOrder = () => {
+  function handleSubmit(e) {
+    e.preventDefault();
     if (!validateForm()) {
       return;
     }
-
     clearCart();
-    localStorage.removeItem("checkoutForm");
+
     navigate("/order-success");
-  };
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-
-    setErrors({
-      ...errors,
-      [name]: "",
-    });
-  };
-
-  useEffect(() => {
-    localStorage.setItem("checkoutForm", JSON.stringify(formData));
-  }, [formData]);
+  }
 
   return (
     <div className="checkout-container">
-      <div className="billing-section">
-        <h2>Billing Details</h2>
-        <div className="form-group">
-          <label>Full Name</label>
+      <form className="checkout-form" onSubmit={handleSubmit}>
+        <h2>Shipping Details</h2>
+
+        <input
+          type="text"
+          name="name"
+          placeholder="Full Name"
+          value={formData.name}
+          onChange={handleChange}
+        />
+
+        {errors.name && <p className="error">{errors.name}</p>}
+
+        <input
+          type="email"
+          name="email"
+          placeholder="Email"
+          value={formData.email}
+          onChange={handleChange}
+        />
+
+        {errors.email && <p className="error">{errors.email}</p>}
+        <input
+          type="tel"
+          placeholder="Phone Number"
+          name="phone"
+          value={formData.phone}
+          onChange={handleChange}
+        />
+        {errors.phone && <p className="error">{errors.phone}</p>}
+
+        <textarea
+          placeholder="Address"
+          name="address"
+          value={formData.address}
+          onChange={handleChange}
+        />
+        {errors.address && <p className="error">{errors.address}</p>}
+        <input
+          type="text"
+          placeholder="City"
+          name="city"
+          value={formData.city}
+          onChange={handleChange}
+        />
+        {errors.city && <p className="error">{errors.city}</p>}
+
+        <input
+          type="text"
+          placeholder="Pincode"
+          name="pincode"
+          value={formData.pincode}
+          onChange={handleChange}
+        />
+        {errors.pincode && <p className="error">{errors.pincode}</p>}
+
+        <h3>Payment Method</h3>
+
+        <label>
           <input
-            type="text"
-            placeholder="Enter your full name"
-            value={formData.fullName}
-            name="fullName"
+            type="radio"
+            name="payment"
+            value="Cash On Delivery"
+            checked={formData.payment === "Cash On Delivery"}
             onChange={handleChange}
           />
-          {errors.fullName && <p className="error-text">{errors.fullName}</p>}
-        </div>
-        <div className="form-group">
-          <label>Phone Number</label>
+          Cash On Delivery
+        </label>
+
+        <label>
           <input
-            type="tel"
-            placeholder="Enter your phone number"
-            value={formData.phone}
-            name="phone"
+            type="radio"
+            name="payment"
+            value="UPI"
             onChange={handleChange}
           />
-          {errors.phone && <p className="error-text">{errors.phone}</p>}
-        </div>
-        <div className="form-group">
-          <label>Email Address</label>
+          UPI
+        </label>
+
+        <label>
           <input
-            type="email"
-            placeholder="Enter your email address"
-            value={formData.email}
-            name="email"
+            type="radio"
+            name="payment"
+            value="Card"
             onChange={handleChange}
           />
-          {errors.email && <p className="error-text">{errors.email}</p>}
-        </div>
-        <div className="form-group">
-          <label>Address</label>
-          <textarea
-            placeholder="Enter your complete address"
-            rows="4"
-            value={formData.address}
-            name="address"
-            onChange={handleChange}
-          ></textarea>
-          {errors.address && <p className="error-text">{errors.address}</p>}
-        </div>
-        <div className="row">
-          <div className="form-group">
-            <label>City</label>
-            <input
-              type="text"
-              placeholder="Enter your city"
-              value={formData.city}
-              name="city"
-              onChange={handleChange}
-            />
-            {errors.city && <p className="error-text">{errors.city}</p>}
-          </div>
-          <div className="form-group">
-            <label>State</label>
-            <input
-              type="text"
-              placeholder="Enter your state"
-              value={formData.state}
-              name="state"
-              onChange={handleChange}
-            />
-            {errors.state && <p className="error-text">{errors.state}</p>}
-          </div>
-        </div>
-        <div className="form-group">
-          <label>Pincode</label>
-          <input
-            type="text"
-            inputMode="numeric"
-            placeholder="Enter your pincode"
-            value={formData.pincode}
-            name="pincode"
-            onChange={handleChange}
-          />
-          {errors.pincode && <p className="error-text">{errors.pincode}</p>}
-        </div>
-      </div>
+          Credit / Debit Card
+        </label>
+      </form>
+
       <div className="order-summary">
         <h2>Order Summary</h2>
-        {cartItems.map((item) => (
-          <div key={item.id} className="summary-item">
-            <div className="summary-header">
-              <h4>{item.name}</h4>
 
-              <span>₹{item.price * item.quantity}</span>
-            </div>
+        <p>
+          <span>Items</span>
 
-            <p>
-              ₹{item.price} × {item.quantity}
-            </p>
-          </div>
-        ))}
+          <span>{totalItems}</span>
+        </p>
+
+        <p>
+          <span>Subtotal</span>
+
+          <span>₹{totalPrice}</span>
+        </p>
+
+        <p>
+          <span>Delivery</span>
+
+          <span>{deliveryCharge === 0 ? "Free" : `₹${deliveryCharge}`}</span>
+        </p>
+
+        <p>
+          <span>GST</span>
+
+          <span>₹{gst}</span>
+        </p>
+
         <hr />
-        <h3>Total Items: {totalItems}</h3>
 
-        <h3>Total Price: ₹{totalPrice}</h3>
+        <h3>
+          <span>Total</span>
 
-        <button className="checkout-btn" onClick={handlePlaceOrder}>
+          <span>₹{grandTotal}</span>
+        </h3>
+
+        <button className="place-order-btn" onClick={handleSubmit}>
           Place Order
         </button>
       </div>

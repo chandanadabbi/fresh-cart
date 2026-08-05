@@ -4,77 +4,81 @@
     justify-content:center;
     align-items:center;
     padding:20px;
-    background:#f8f9fa;
 }
 
 .success-card{
-    background:white;
-    padding:40px;
-    border-radius:16px;
-    box-shadow:0 8px 20px rgba(0,0,0,0.1);
-    text-align:center;
-    max-width:500px;
+    background:#fff;
     width:100%;
+    max-width:650px;
+    padding:50px;
+    border-radius:15px;
+    text-align:center;
+    box-shadow:0 5px 20px rgba(0,0,0,.1);
+}
+
+.success-icon{
+    font-size:80px;
+    margin-bottom:20px;
 }
 
 .success-card h1{
-    font-size:70px;
-    margin-bottom:15px;
-}
-
-.success-card h2{
-    font-size:32px;
     color:#2ecc71;
-    margin-bottom:15px;
+    margin-bottom:20px;
 }
 
 .success-card p{
     color:#666;
-    font-size:18px;
-    line-height:1.6;
-    margin-bottom:30px;
+    line-height:1.7;
+    margin-bottom:10px;
 }
 
-.continue-btn{
-    display:inline-block;
+.success-buttons{
+    margin-top:35px;
+    display:flex;
+    gap:20px;
+    justify-content:center;
+    flex-wrap:wrap;
+}
+
+.home-btn,
+.orders-btn{
+    padding:14px 28px;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    font-size:16px;
+}
+
+.home-btn{
     background:#2ecc71;
     color:white;
-    text-decoration:none;
-    padding:14px 28px;
-    border-radius:8px;
-    font-size:18px;
-    font-weight:600;
-    transition:0.3s;
 }
 
-.continue-btn:hover{
+.home-btn:hover{
     background:#27ae60;
 }
 
-@media(max-width:768px){
-
-    .success-card{
-        padding:30px;
-    }
-
-    .success-card h1{
-        font-size:60px;
-    }
-
-    .success-card h2{
-        font-size:26px;
-    }
-
-    .success-card p{
-        font-size:16px;
-    }
+.orders-btn{
+    background:#3498db;
+    color:white;
 }
+
+.orders-btn:hover{
+    background:#2980b9;
+}
+
 @media(max-width:768px){
 
-    .continue-btn{
-        display:block;
-        width:100%;
-        box-sizing:border-box;
-    }
+.success-card{
+    padding:35px 20px;
+}
+
+.success-icon{
+    font-size:60px;
+}
+
+.success-card h1{
+    font-size:28px;
+}
 
 }
