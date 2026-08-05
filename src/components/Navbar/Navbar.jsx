@@ -14,9 +14,6 @@ function Navbar() {
           <h2>🛒 FreshCart</h2>
         </Link>
       </div>
-      <button className="menu-icon" onClick={() => setIsMenuOpen(!isMenuOpen)}>
-        ☰
-      </button>
       <div className="nav-actions">
         <Link to="/cart" className="cart-btn">
           🛒 Cart ({totalItems})

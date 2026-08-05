@@ -83,25 +83,6 @@ function ProductDetails() {
 
             <p>🔒 100% Secure Checkout</p>
           </div>
-
-          <div className="quantity-section">
-            <button
-              onClick={() => setQuantity((prev) => Math.max(1, prev - 1))}
-            >
-              −
-            </button>
-
-            <span className="quantity">{quantity}</span>
-
-            <button
-              onClick={() =>
-                setQuantity((prev) => Math.min(product.stock, prev + 1))
-              }
-            >
-              +
-            </button>
-          </div>
-
           <button
             className="add-cart-btn"
             disabled={product.stock === 0}
